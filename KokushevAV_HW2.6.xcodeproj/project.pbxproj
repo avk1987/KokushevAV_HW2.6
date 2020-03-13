@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8A1C343B241B76D9008B28CB /* MainScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1C343A241B76D9008B28CB /* MainScreenViewController.swift */; };
 		8AA77C76241A5C260023FCA5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA77C75241A5C260023FCA5 /* AppDelegate.swift */; };
 		8AA77C78241A5C260023FCA5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA77C77241A5C260023FCA5 /* SceneDelegate.swift */; };
 		8AA77C7A241A5C260023FCA5 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA77C79241A5C260023FCA5 /* SettingsViewController.swift */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8A1C343A241B76D9008B28CB /* MainScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenViewController.swift; sourceTree = "<group>"; };
 		8AA77C72241A5C260023FCA5 /* KokushevAV_HW2.6.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KokushevAV_HW2.6.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AA77C75241A5C260023FCA5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8AA77C77241A5C260023FCA5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -58,6 +60,7 @@
 			children = (
 				8AA77C75241A5C260023FCA5 /* AppDelegate.swift */,
 				8AA77C77241A5C260023FCA5 /* SceneDelegate.swift */,
+				8A1C343A241B76D9008B28CB /* MainScreenViewController.swift */,
 				8AA77C79241A5C260023FCA5 /* SettingsViewController.swift */,
 				8AA77C7B241A5C260023FCA5 /* Main.storyboard */,
 				8AA77C7E241A5C280023FCA5 /* Assets.xcassets */,
@@ -139,6 +142,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8AA77C7A241A5C260023FCA5 /* SettingsViewController.swift in Sources */,
+				8A1C343B241B76D9008B28CB /* MainScreenViewController.swift in Sources */,
 				8AA77C76241A5C260023FCA5 /* AppDelegate.swift in Sources */,
 				8AA77C78241A5C260023FCA5 /* SceneDelegate.swift in Sources */,
 			);

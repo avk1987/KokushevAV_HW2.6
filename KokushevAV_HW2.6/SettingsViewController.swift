@@ -8,11 +8,18 @@
 
 import UIKit
 
+protocol SetBackgroundColor {
+    func getColor(color: UIColor)
+}
 class SettingsViewController: UIViewController {
 
     @IBOutlet var redSlider: UISlider!
     @IBOutlet var greenSlider: UISlider!
     @IBOutlet var blueSlider: UISlider!
+    
+    @IBOutlet var redTextField: UITextField!
+    @IBOutlet var greenTextField: UITextField!
+    @IBOutlet var blueTextField: UITextField!
     
     @IBOutlet var redValue: UILabel!
     @IBOutlet var greenValue: UILabel!
@@ -20,33 +27,109 @@ class SettingsViewController: UIViewController {
     
     @IBOutlet var colorView: UIView!
     
+    var delegate: SetBackgroundColor!
+    var mainScreenColor: UIColor!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         redSlider.tintColor = .red
         greenSlider.tintColor = .green
         blueSlider.tintColor = .blue
-    }
-
-    @IBAction func sliderBeenMoved(_ sender: UISlider) {
-
-        switch sender {
-        case redSlider:
-            redValue.text = String(format: "%.2f", sender.value)
-        case greenSlider:
-            greenValue.text = String(format: "%.2f", sender.value)
-        case blueSlider:
-            blueValue.text = String(format: "%.2f", sender.value)
-        default:
-            break
-        }
         
+        createButtonOnKeyboard()
+        updateValues(source: .startup)
         updateColor()
         
     }
+    
+    @IBAction func sliderBeenMoved() {
+        updateValues(source: nil)
+        updateColor()
+    }
+    
+    @IBAction func DoneButtonPressed() {
+        delegate.getColor(color: colorView.backgroundColor!)
+        dismiss(animated: true, completion: nil)
+    }
+    
 }
 
-// MARK: Change color in view
+
+// MARK: Private methods
 extension SettingsViewController {
+   
+    enum Source {
+        case startup
+        case textfield
+        case slider
+    }
+    
+    private func createButtonOnKeyboard() {
+        
+        let bar = UIToolbar()
+        let doneButton = UIBarButtonItem(title: "Done",
+                                         style: .plain,
+                                         target: self,
+                                         action: #selector(doneFromKeyboardPressed))
+        
+        let flexible = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
+                                       target: nil,
+                                       action: nil)
+        
+        bar.setItems([flexible, doneButton], animated: false)
+        bar.sizeToFit()
+        
+        self.redTextField.inputAccessoryView = bar
+        self.greenTextField.inputAccessoryView = bar
+        self.blueTextField.inputAccessoryView = bar
+    }
+    
+    @objc private func doneFromKeyboardPressed() {
+        
+        updateValues(source: .textfield)
+        updateColor()
+        view.endEditing(true)
+    }
+    
+    private func updateValues(source: Source?) {
+        
+        if source == .textfield {
+            
+            //если будут введены ошибочные значения, например только точки то ничего не произойдет
+            guard var redVal = Float(redTextField.text ?? "0") else { return }
+            guard var greenVal = Float(greenTextField.text ?? "0") else { return }
+            guard var blueVal = Float(blueTextField.text ?? "0") else { return }
+            
+            redVal = redVal > 1 ? 1.00 : redVal
+            redVal = redVal < 0 ? 0.00 : redVal
+            greenVal = greenVal > 1 ? 1.00 : greenVal
+            greenVal = greenVal < 0 ? 0.00 : greenVal
+            blueVal = blueVal > 1 ? 1.00 : blueVal
+            blueVal = blueVal < 0 ? 0.00 : blueVal
+            
+            redSlider.value = redVal
+            greenSlider.value = greenVal
+            blueSlider.value = blueVal
+            
+        } else if source == .startup {
+            
+            let ciColor = CIColor(color: mainScreenColor)
+            redSlider.value = Float(ciColor.red)
+            greenSlider.value = Float(ciColor.green)
+            blueSlider.value = Float(ciColor.blue)
+            
+        }
+        
+        redValue.text = String(format: "%.2f", redSlider.value)
+        redTextField.text = redValue.text
+        
+        greenValue.text = String(format: "%.2f", greenSlider.value)
+        greenTextField.text = greenValue.text
+        
+        blueValue.text = String(format: "%.2f", blueSlider.value)
+        blueTextField.text = blueValue.text
+        
+    }
     
    private func updateColor() {
         
@@ -57,4 +140,5 @@ extension SettingsViewController {
                                             blue: CGFloat(blueSlider.value),
                                             alpha: alphaDefault)
     }
+
 }
