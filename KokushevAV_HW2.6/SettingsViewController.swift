@@ -43,6 +43,7 @@ class SettingsViewController: UIViewController {
     }
     
     @IBAction func sliderBeenMoved() {
+        // можно было создать для слайдера свой case, но в его обработке нет спецефических действий как у ввода с клаваиатуры или захвата цвета с пред. экрана. Сделал просто nil
         updateValues(source: nil)
         updateColor()
     }
@@ -58,10 +59,9 @@ class SettingsViewController: UIViewController {
 // MARK: Private methods
 extension SettingsViewController {
    
-    enum Source {
+    private enum Source {
         case startup
         case textfield
-        case slider
     }
     
     private func createButtonOnKeyboard() {
@@ -92,9 +92,9 @@ extension SettingsViewController {
     }
     
     private func updateValues(source: Source?) {
-        
+       
+        //Есои задали цвет с клаиватуры то требуется проверить и заполнить введенные данные
         if source == .textfield {
-            
             //если будут введены ошибочные значения, например только точки то ничего не произойдет
             guard var redVal = Float(redTextField.text ?? "0") else { return }
             guard var greenVal = Float(greenTextField.text ?? "0") else { return }
@@ -112,14 +112,15 @@ extension SettingsViewController {
             blueSlider.value = blueVal
             
         } else if source == .startup {
-            
+            //если цвет пришел с другого экрана то проверять его не надо, надо разобрать его на rdg и применить к слайдерам
             let ciColor = CIColor(color: mainScreenColor)
             redSlider.value = Float(ciColor.red)
             greenSlider.value = Float(ciColor.green)
             blueSlider.value = Float(ciColor.blue)
             
         }
-        
+       
+        // а это надо делать в любом случае
         redValue.text = String(format: "%.2f", redSlider.value)
         redTextField.text = redValue.text
         
